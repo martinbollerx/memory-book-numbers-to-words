@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Numbers to Words (Memory Book)</title>
+  <meta name="description" content="Turn any number into memorable words with the phonetic alphabet from The Memory Book by Harry Lorayne and Jerry Lucas.">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main>
+    <header>
+      <h1>Numbers to Words (Memory Book)</h1>
+      <p class="lead">Type a number and get words based on the phonetic alphabet. To learn how to use this system read <em>The Memory Book</em> by Harry Lorayne and Jerry Lucas.</p>
+    </header>
+
+    <form id="form" autocomplete="off">
+      <label for="number">Number</label>
+      <div class="row">
+        <input id="number" name="number" type="text" inputmode="numeric" placeholder="e.g. 3212" maxlength="40" autofocus>
+        <button type="submit">Find words</button>
+      </div>
+      <p id="message" class="message" role="status" aria-live="polite"></p>
+    </form>
+
+    <ol id="results" class="results" aria-label="Suggestions"></ol>
+
+    <details class="alphabet">
+      <summary>The phonetic alphabet</summary>
+      <div class="example">
+        <p class="example-title">Example: mountain (3212)</p>
+        <p>All vowels (a, e, i, o, u) have no value, so <b>mountain</b> is <b>3212</b> (<b>m</b> = 3, <b>n</b> = 2, <b>t</b> = 1, <b>n</b> = 2). To remember 3212 just picture a mountain.</p>
+      </div>
+      <table>
+        <thead><tr><th>Digit</th><th>Sounds</th></tr></thead>
+        <tbody>
+          <tr><td>0</td><td>s, z, soft c</td></tr>
+          <tr><td>1</td><td>t, d</td></tr>
+          <tr><td>2</td><td>n</td></tr>
+          <tr><td>3</td><td>m</td></tr>
+          <tr><td>4</td><td>r</td></tr>
+          <tr><td>5</td><td>l</td></tr>
+          <tr><td>6</td><td>j, sh, ch, soft g</td></tr>
+          <tr><td>7</td><td>k, hard c, hard g</td></tr>
+          <tr><td>8</td><td>f, v, ph</td></tr>
+          <tr><td>9</td><td>p, b</td></tr>
+          <tr><td>–</td><td>vowels and silent letters have no value (a, e, i, o, u, w, h, y)</td></tr>
+        </tbody>
+      </table>
+      <p>Only the sound counts, not the spelling: <b>knife</b> is 28 and <b>phone</b> is 82.</p>
+    </details>
+  </main>
+  <script type="module" src="src/app.js"></script>
+</body>
+</html>

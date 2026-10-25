@@ -1,0 +1,10 @@
+# generated word list, rebuilt by build/export_words.py (large)
+build/words.json
+
+# copyrighted book material, only for reference, must not be published
+*.pdf
+Memory Book numbers 1 - 100.jpg
+
+# local tooling
+.claude/
+node_modules/

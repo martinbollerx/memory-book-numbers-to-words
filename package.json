@@ -1,0 +1,11 @@
+{
+  "name": "memory-book-numbers-to-words",
+  "version": "1.0.0",
+  "description": "Turn numbers into memorable words with the phonetic alphabet from The Memory Book (Lorayne & Lucas)",
+  "type": "module",
+  "scripts": {
+    "test": "node --test \"tests/*.test.js\"",
+    "build:index": "node build/build_index.js",
+    "serve": "node build/serve.js"
+  }
+}
