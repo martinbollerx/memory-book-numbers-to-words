@@ -54,7 +54,7 @@ form.addEventListener('submit', async (event) => {
 
   const digits = normalizeNumber(input.value);
   if (!input.value.trim()) return say('Type a number first.', true);
-  if (!digits) return say('Digits only, please (spaces and dashes are fine).', true);
+  if (!digits) return say('Digits only please (spaces and dashes are fine).', true);
 
   say('Searching…');
   let index, pegs;
