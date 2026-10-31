@@ -14,7 +14,10 @@ const results = document.getElementById('results');
 // Relative URLs so this also works under a GitHub Pages sub-path.
 const dataReady = Promise.all([
   fetch('data/index.json').then((r) => r.json()),
-  fetch('data/pegs.json').then((r) => r.json()),
+  Promise.all([
+    fetch('data/pegs.json').then((r) => r.json()),
+    fetch('data/pegs_zero.json').then((r) => r.json()),
+  ]).then(([book, zero]) => ({ ...book, ...zero })),
 ]);
 
 function say(text, isError = false) {

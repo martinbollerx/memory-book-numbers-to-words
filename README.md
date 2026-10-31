@@ -29,3 +29,4 @@ npm run build:index            # writes data/index.json
 - `build/`: builds `data/index.json` (digit string to words, most common first). Function words and acronyms are dropped via `blocked_words.json`; the book's peg words are always kept.
 - `src/suggest.js`: picks three suggestions: one word for the whole number, the fewest words covering it, and the book's peg words two digits at a time.
 - `data/pegs.json`: the book's 1-100 peg list.
+- `data/pegs_zero.json`: my own peg words for 00-09, since the book's list starts at 1.

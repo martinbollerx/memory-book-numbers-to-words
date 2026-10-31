@@ -17,7 +17,10 @@ const variants = JSON.parse(readFileSync(join(root, 'build', 'extra_variants.jso
 for (const row of words) if (Object.hasOwn(variants, row.w)) row.p.push(...variants[row.w]);
 
 // Peg words and the spec's test words stay in the index even past the per-digit cap.
-const pegs = JSON.parse(readFileSync(join(root, 'data', 'pegs.json'), 'utf8'));
+const pegs = {
+  ...JSON.parse(readFileSync(join(root, 'data', 'pegs.json'), 'utf8')),
+  ...JSON.parse(readFileSync(join(root, 'data', 'pegs_zero.json'), 'utf8')),
+};
 const forced = new Set([
   ...Object.values(pegs).flatMap((p) => p.toLowerCase().split(' ')),
   ...JSON.parse(readFileSync(join(root, 'build', 'forced_words.json'), 'utf8')),

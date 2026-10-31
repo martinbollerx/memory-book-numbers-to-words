@@ -5,7 +5,7 @@ import { suggest, normalizeNumber } from '../src/suggest.js';
 
 const load = (f) => JSON.parse(readFileSync(new URL(`../data/${f}`, import.meta.url), 'utf8'));
 const index = load('index.json');
-const pegs = load('pegs.json');
+const pegs = { ...load('pegs.json'), ...load('pegs_zero.json') };
 
 const phrases = (number, limit = 100) =>
   suggest(number, index, pegs, { limit }).map((s) => s.parts.map((p) => p.word.toLowerCase()).join(' '));
@@ -50,6 +50,13 @@ test('th words get a 1 in the index (anesthesia is no longer 206)', () => {
   assert.ok(!(index['206'] ?? []).some(([w]) => w === 'anesthesia'));
   assert.ok((index['2016'] ?? []).some(([w]) => w === 'anesthesia'));
   assert.ok((index['2010'] ?? []).some(([w]) => w === 'anesthesia'));
+});
+
+test('numbers with leading zeros get peg suggestions (0403)', () => {
+  const found = suggest('0403', index, pegs, { limit: 100 });
+  assert.ok(found.some((s) => s.kind === 'pegs'));
+  assert.ok(phrases('0403').includes('zero sumo'));
+  assert.equal(phrases("05")[0], "sail"); // the 00-09 pegs come first for two digits
 });
 
 test('leading zeros matter', () => {

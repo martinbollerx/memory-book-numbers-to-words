@@ -1,6 +1,7 @@
 // Turns a digit string into ranked word suggestions.
 //   index: { "<digits>": [[word, zipf], ...] }  (data/index.json, most common first)
-//   pegs:  { "<number>": word }                 (data/pegs.json, the book's 1-100 list)
+//   pegs:  { "<number>": word }                 (data/pegs.json, the book's 1-100 list,
+//                                                plus data/pegs_zero.json for 00-09)
 //
 // A suggestion is { kind, parts: [{ word, digits }] } where kind is
 //   'word'    one word covering the whole number
@@ -60,7 +61,7 @@ export function suggest(number, index, pegs, { limit = 3 } = {}) {
 function wholeWords(digits, index, pegs) {
   const words = (index[digits] ?? []).map(([word]) => word);
   // For 1-100 the book's own peg word comes first.
-  const peg = digits[0] !== '0' ? pegs[digits] : undefined;
+  const peg = pegs[digits];
   if (peg) words.unshift(peg);
   return words.map((word) => ({ kind: 'word', parts: [{ word, digits }] }));
 }
@@ -108,7 +109,7 @@ function pegCombos(digits, index, pegs) {
     const parts = [];
     let ok = true;
     for (const chunk of chunks) {
-      const peg = chunk[0] !== '0' ? pegs[chunk] : undefined;
+      const peg = pegs[chunk];
       if (peg) { parts.push({ word: peg, digits: chunk }); pegsUsed++; continue; }
       const fallback = index[chunk]?.[0];
       if (!fallback) { ok = false; break; }
