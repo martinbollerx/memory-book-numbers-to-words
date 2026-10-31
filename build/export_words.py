@@ -16,25 +16,19 @@ from wordfreq import zipf_frequency
 MIN_ZIPF = 2.0  # drop very rare words
 HERE = Path(__file__).parent
 
-# Words that must always be in the index even if rare: the book's peg words
-# plus a few words from the spec's test cases.
+# Words that must always be in the index even if rare: the book's peg words.
 pegs = json.loads((HERE.parent / "data" / "pegs.json").read_text(encoding="utf-8"))
+pegs.update(json.loads((HERE.parent / "data" / "pegs_zero.json").read_text(encoding="utf-8")))
 forced = {w.lower() for peg in pegs.values() for w in peg.split()}
-forced |= set(json.loads((HERE / "forced_words.json").read_text(encoding="utf-8")))
 
 pron = cmudict.dict()
-
-# Words missing from cmudict that we still want (see tests); one pronunciation each.
-extras = json.loads((HERE / "extra_pronunciations.json").read_text(encoding="utf-8"))
-for word, phonemes in extras.items():
-    pron.setdefault(word, [phonemes.split()])
 
 rows = []
 for word, prons in pron.items():
     if not re.fullmatch(r"[a-z]+", word):
         continue  # skip hyphens, apostrophes, digits
     zipf = zipf_frequency(word, "en")
-    if word in extras or word in forced:
+    if word in forced:
         zipf = max(zipf, MIN_ZIPF)
     if zipf < MIN_ZIPF:
         continue

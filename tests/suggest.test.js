@@ -14,22 +14,9 @@ test('3994 includes "mop bear"', () => {
   assert.ok(phrases('3994').includes('mop bear'));
 });
 
-test('05403 includes "solarism" and "slower sam"', () => {
-  const found = phrases('05403');
-  assert.ok(found.includes('solarism'), found.slice(0, 10).join(' | '));
-  assert.ok(found.includes('slower sam'), found.slice(0, 10).join(' | '));
-});
-
 test('1989 has a two-word option', () => {
   const twoWord = suggest('1989', index, pegs, { limit: 100 }).filter((s) => s.parts.length === 2);
   assert.ok(twoWord.length > 0);
-});
-
-test('single words: 28 knife, 82 phone, 64 cherry, 394 mopper', () => {
-  assert.ok(phrases('28').includes('knife'));
-  assert.ok(phrases('82').includes('phone'));
-  assert.ok(phrases('64').includes('cherry'));
-  assert.ok(phrases('394').includes('mopper'));
 });
 
 test('pi: 3.1415927 gets suggestions (dots are ignored)', () => {

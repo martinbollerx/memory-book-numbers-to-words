@@ -1,5 +1,6 @@
 // Turns a digit string into ranked word suggestions.
-//   index: { "<digits>": [[word, zipf], ...] }  (data/index.json, most common first)
+//   index: { "<digits>": [[word, score], ...] }  (data/index.json, best first; the score
+//          combines how common a word is with how easy it is to picture)
 //   pegs:  { "<number>": word }                 (data/pegs.json, the book's 1-100 list,
 //                                                plus data/pegs_zero.json for 00-09)
 //
@@ -9,7 +10,6 @@
 //   'pegs'    the book's peg words, two digits at a time
 
 const WORDS_PER_SEGMENT = 8;   // candidates tried per digit segment in the DP
-const MAX_ZIPF = 4.5;          // very common words should not outrank better picture words
 const SINGLE_DIGIT_PENALTY = 1; // one-digit words are weak pictures
 const MAX_SEGMENT = 12;        // longest digit run a single word may cover
 
@@ -79,9 +79,9 @@ function fewestWords(digits, index, k) {
       if (!best[j].length) continue;
       const segment = digits.slice(j, i);
       const words = (index[segment] ?? []).slice(0, WORDS_PER_SEGMENT);
-      for (const [word, zipf] of words) {
+      for (const [word, score] of words) {
         for (const prev of best[j]) {
-          found.push({ parts: [...prev.parts, { word, digits: segment }], score: prev.score + Math.min(zipf, MAX_ZIPF) - (segment.length === 1 ? SINGLE_DIGIT_PENALTY : 0) });
+          found.push({ parts: [...prev.parts, { word, digits: segment }], score: prev.score + score - (segment.length === 1 ? SINGLE_DIGIT_PENALTY : 0) });
         }
       }
     }

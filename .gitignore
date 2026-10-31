@@ -8,3 +8,4 @@ Memory Book numbers 1 - 100.jpg
 # local tooling
 .claude/
 node_modules/
+build/concreteness.json
