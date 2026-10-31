@@ -24,18 +24,24 @@ export function suggest(number, index, pegs, { limit = 3 } = {}) {
 
   const groups = [
     wholeWords(digits, index, pegs),
-    fewestWords(digits, index, Math.max(12, limit * 3)),
+    fewestWords(digits, index, Math.max(40, limit * 3)),
     pegCombos(digits, index, pegs),
   ];
 
-  // First pass takes at most 2 per kind so each strategy gets a say; the
-  // second pass fills any remaining slots in ranking order.
+  // Pass 1 takes at most 2 per kind so each strategy gets a say. Passes 1 and 2
+  // skip suggestions that reuse a word (or one starting the same, like
+  // "power" and "powers") from an earlier pick, so the choices look different.
+  // Pass 3 fills any remaining slots without that rule.
   const result = [];
   const seen = new Set();
-  const add = (s) => {
+  const stems = new Set();
+  const stemsOf = (s) => s.parts.map((p) => p.word.toLowerCase().slice(0, 4));
+  const add = (s, requireDifferent) => {
     const key = s.parts.map((p) => p.word.toLowerCase()).join(' ');
     if (seen.has(key) || result.length >= limit) return false;
+    if (requireDifferent && stemsOf(s).some((x) => stems.has(x))) return false;
     seen.add(key);
+    stemsOf(s).forEach((x) => stems.add(x));
     result.push(s);
     return true;
   };
@@ -43,10 +49,11 @@ export function suggest(number, index, pegs, { limit = 3 } = {}) {
     let taken = 0;
     for (const s of group) {
       if (taken >= 2) break;
-      if (add(s)) taken++;
+      if (add(s, true)) taken++;
     }
   }
-  for (const group of groups) for (const s of group) add(s);
+  for (const group of groups) for (const s of group) add(s, true);
+  for (const group of groups) for (const s of group) add(s, false);
   return result;
 }
 

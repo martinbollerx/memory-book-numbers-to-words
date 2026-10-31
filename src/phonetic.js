@@ -4,7 +4,7 @@
 
 const PHONEME_DIGITS = {
   S: '0', Z: '0',
-  T: '1', D: '1',
+  T: '1', D: '1', TH: '1', DH: '1', // th as in "thing" and "this"
   N: '2',
   M: '3',
   R: '4', ER: '4',

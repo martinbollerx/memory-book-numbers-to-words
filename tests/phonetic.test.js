@@ -23,7 +23,32 @@ const cases = [
   ['when', 'W EH1 N', '2'],
   ['yes', 'Y EH1 S', '0'],
   ['hi', 'HH AY1', ''],
-  ['thing-less th/dh ignored', 'TH DH', ''],
+  // th counts as 1 (voiceless as in "thing", voiced as in "this")
+  ['thing', 'TH IH1 NG', '12'],
+  ['this', 'DH IH1 S', '10'],
+  ['both', 'B OW1 TH', '91'],
+  ['birth', 'B ER1 TH', '941'],
+  ['anesthesia', 'AE2 N IH0 S TH IY1 ZH AH0', '2016'],
+  // examples from https://en.wikipedia.org/wiki/Mnemonic_major_system
+  ['action', 'AE1 K SH AH0 N', '762'],
+  ['muddy', 'M AH1 D IY0', '31'],
+  ['midday', 'M IH1 D D EY2', '311'],
+  ['accept', 'AH0 K S EH1 P T', '7091'],
+  ['hindquarters', 'HH AY1 N D K AO2 R T ER0 Z', '2174140'],
+  ['fax', 'F AE1 K S', '870'],
+  ['exam', 'IH0 G Z AE1 M', '703'],
+  ['pizza', 'P IY1 T S AH0', '910'],
+  ['ghost', 'G OW1 S T', '701'],
+  ['fear', 'F IH1 R', '84'],
+  ['ring', 'R IH1 NG', '42'],
+  ['finger', 'F IH1 NG G ER0', '8274'],
+  ['meteor', 'M IY1 T IY0 ER0', '314'],
+  ['tail', 'T EY1 L', '15'],
+  ['pink', 'P IH1 NG K', '927'],
+  ['call', 'K AO1 L', '75'],
+  ['cell', 'S EH1 L', '05'],
+  ['cello', 'CH EH1 L OW0', '65'],
+  ['luxury', 'L AH1 G ZH ER0 IY0', '5764'],
 ];
 
 for (const [word, phonemes, digits] of cases) {

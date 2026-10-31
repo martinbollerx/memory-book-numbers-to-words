@@ -32,6 +32,25 @@ test('single words: 28 knife, 82 phone, 64 cherry, 394 mopper', () => {
   assert.ok(phrases('394').includes('mopper'));
 });
 
+test('pi: 3.1415927 gets suggestions (dots are ignored)', () => {
+  const found = suggest('3.1415927', index, pegs);
+  assert.equal(found.length, 3);
+  for (const s of found) assert.equal(s.parts.map((p) => p.digits).join(''), '31415927');
+});
+
+test('the 3 suggestions do not share a word or a word start', () => {
+  for (const n of ['3994', '1989', '5496', '8043', '6128', '7305']) {
+    const found = suggest(n, index, pegs);
+    const stems = found.flatMap((s) => s.parts.map((p) => p.word.toLowerCase().slice(0, 4)));
+    assert.equal(new Set(stems).size, stems.length, `${n}: ${found.map((s) => s.parts.map((p) => p.word).join(' ')).join(' | ')}`);
+  }
+});
+
+test('th words get a 1 in the index (anesthesia is no longer 206)', () => {
+  assert.ok(!(index['206'] ?? []).some(([w]) => w === 'anesthesia'));
+  assert.ok((index['2016'] ?? []).some(([w]) => w === 'anesthesia'));
+});
+
 test('leading zeros matter', () => {
   assert.notDeepEqual(phrases('05403'), phrases('5403'));
 });
