@@ -12,6 +12,10 @@ const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const extras = JSON.parse(readFileSync(join(root, 'build', 'extra_pronunciations.json'), 'utf8'));
 const words = JSON.parse(readFileSync(join(root, 'build', 'words.json'), 'utf8'));
 
+// Extra ways to say a word that the dictionary lacks, e.g. "anesthesia" with a plain z.
+const variants = JSON.parse(readFileSync(join(root, 'build', 'extra_variants.json'), 'utf8'));
+for (const row of words) if (Object.hasOwn(variants, row.w)) row.p.push(...variants[row.w]);
+
 // Peg words and the spec's test words stay in the index even past the per-digit cap.
 const pegs = JSON.parse(readFileSync(join(root, 'data', 'pegs.json'), 'utf8'));
 const forced = new Set([
@@ -27,7 +31,7 @@ const index = {};
 for (const { w, z, p } of words) {
   if (blocked.has(w) && !forced.has(w)) continue;
   if (w.length < 2) continue;                      // spelled-out letters ("b", "c") make bad pegs
-  if (z < MIN_ZIPF && !(w in extras)) continue;
+  if (z < MIN_ZIPF && !Object.hasOwn(extras, w)) continue;
   const seen = new Set();
   for (const pronunciation of p) {
     const digits = phonemesToDigits(pronunciation);

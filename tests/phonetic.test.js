@@ -29,6 +29,7 @@ const cases = [
   ['both', 'B OW1 TH', '91'],
   ['birth', 'B ER1 TH', '941'],
   ['anesthesia', 'AE2 N IH0 S TH IY1 ZH AH0', '2016'],
+  ['anesthesia (plain z)', 'AE2 N AH0 S TH IY1 Z IY0 AH0', '2010'],
   // examples from https://en.wikipedia.org/wiki/Mnemonic_major_system
   ['action', 'AE1 K SH AH0 N', '762'],
   ['muddy', 'M AH1 D IY0', '31'],

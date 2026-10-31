@@ -49,6 +49,7 @@ test('the 3 suggestions do not share a word or a word start', () => {
 test('th words get a 1 in the index (anesthesia is no longer 206)', () => {
   assert.ok(!(index['206'] ?? []).some(([w]) => w === 'anesthesia'));
   assert.ok((index['2016'] ?? []).some(([w]) => w === 'anesthesia'));
+  assert.ok((index['2010'] ?? []).some(([w]) => w === 'anesthesia'));
 });
 
 test('leading zeros matter', () => {
